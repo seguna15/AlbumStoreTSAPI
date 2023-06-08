@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import dotenv from 'dotenv'
+import router from './router/index.route';
 import connect from './utils/connect.util';
 
 dotenv.config();
@@ -27,3 +28,4 @@ server.listen(8000, async () => {
 })
 
 
+app.use('/api', router());

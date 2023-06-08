@@ -2,6 +2,12 @@ import express from 'express';
 import { getUserByEmail, createUser } from '../services/user.service';
 import { authentication, random } from '../utils/index.util';
 
+/**
+ ** login user; path 'api/auth/login'
+ * @param req 
+ * @param res 
+ * @returns logged in user
+ */
 export const login = async (req: express.Request, res: express.Response) => {
     try {
         const { email, password } = req.body;
@@ -29,9 +35,15 @@ export const login = async (req: express.Request, res: express.Response) => {
     }
 }
 
+/**
+ ** register user; path 'api/auth/register'
+ * @param req 
+ * @param res 
+ * @returns registered in user
+ */
 export const register = async  (req: express.Request, res: express.Response) => {
     try {
-        const { email, password, username } = req.body;
+        const { email, password, username, roles } = req.body;
         if(!email || !password || !username) return res.sendStatus(400);
 
         const existingUser = await getUserByEmail(email);
@@ -41,6 +53,7 @@ export const register = async  (req: express.Request, res: express.Response) => 
         const user = await createUser({
             email,
             username,
+            roles,
             authentication: {
                 salt, 
                 password: authentication(salt, password),
